@@ -1,0 +1,32 @@
+# NewsSpider 配置文件模板
+# 请将此文件复制为 config.py 并填写相应的配置信息
+
+import os
+
+class Config:
+    """NewsSpider 配置类"""
+    
+    # DeepSeek API 配置
+    DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", "your_deepseek_api_key_here")
+    
+    # 文件路径配置
+    PDF_FILE_PATH = "./spider/News.pdf"
+    
+    # 目标网站配置
+    TARGET_BASE_URL = "复制学校内部网网址"
+    TARGET_PAGE_URL = "复制学校公文通页面的网址"
+    
+    # 请求配置
+    USER_AGENT = "Mozilla/5.0 (兼容浏览器)"
+    REQUEST_DELAY = 2  # 请求间隔时间（秒）
+    
+    # PDF 配置
+    PDF_FONT_PATH = "/System/Library/Fonts/Supplemental/Songti.ttc"  # macOS 中文字体路径
+    
+    # AI 模型配置
+    DEEPSEEK_MODEL = "deepseek-chat"
+    EMBEDDING_MODEL = "quentinz/bge-large-zh-v1.5:latest"
+    
+    # 文本处理配置
+    CHUNK_SIZE = 1000
+    CHUNK_OVERLAP = 50
