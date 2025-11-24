@@ -3,29 +3,38 @@
 
 import os
 
+
+# =================================================
+# 配置网络代理，请填写自己的端口 
+# =================================================
+os.environ["http_proxy"] = "http://127.0.0.1:xxxx"
+os.environ["https_proxy"] = "http://127.0.0.1:xxxx"
+os.environ["all_proxy"] = "socks5://127.0.0.1:xxxx" 
+# =================================================
+
 class Config:
     """NewsSpider 配置类"""
     
-    # DeepSeek API 配置
-    DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", "your_deepseek_api_key_here")
+    # GOOGLE API 配置
+    GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "your_deepseek_api_key_here")
     
     # 文件路径配置
-    PDF_FILE_PATH = "./spider/News.pdf"
+    PDF_FILE_PATH = "./News.pdf"
     
     # 目标网站配置
-    TARGET_BASE_URL = "复制学校内部网网址"
-    TARGET_PAGE_URL = "复制学校公文通页面的网址"
+    TARGET_BASE_URL = "https://nbw.sztu.edu.cn/"
+    TARGET_PAGE_URL = "https://nbw.sztu.edu.cn/list.jsp?urltype=tree.TreeTempUrl&wbtreeid=1029"
     
     # 请求配置
-    USER_AGENT = "Mozilla/5.0 (兼容浏览器)"
+    USER_AGENT = "Mozilla/5.0"
     REQUEST_DELAY = 2  # 请求间隔时间（秒）
     
     # PDF 配置
     PDF_FONT_PATH = "/System/Library/Fonts/Supplemental/Songti.ttc"  # macOS 中文字体路径
     
     # AI 模型配置
-    DEEPSEEK_MODEL = "deepseek-chat"
-    EMBEDDING_MODEL = "quentinz/bge-large-zh-v1.5:latest"
+    GEMINI_MODEL="gemini-2.5-flash"
+    EMBEDDING_MODEL = "models/text-embedding-004"
     
     # 文本处理配置
     CHUNK_SIZE = 1000

@@ -8,7 +8,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 try:
     from config import Config
 except ImportError:
-    # 如果配置文件不存在，使用默认配置
     class Config:
         PDF_FONT_PATH = "/System/Library/Fonts/Supplemental/Songti.ttc"
 

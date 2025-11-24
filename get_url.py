@@ -13,7 +13,7 @@ try:
 except ImportError:
     # 如果配置文件不存在，使用默认配置
     class Config:
-        USER_AGENT = "Mozilla/5.0 (兼容浏览器)"
+        USER_AGENT = "Mozilla/5.0"
         REQUEST_DELAY = 2
 
 headers = {

@@ -1,6 +1,5 @@
 import os
-from langchain_deepseek import ChatDeepSeek
-from langchain_ollama import OllamaEmbeddings
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.chains import ConversationalRetrievalChain
@@ -18,18 +17,26 @@ except ImportError:
     # 如果配置文件不存在，使用默认配置
     class Config:
         PDF_FILE_PATH = "./News.pdf"
-        DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
-        DEEPSEEK_MODEL = "deepseek-chat"
-        EMBEDDING_MODEL = "quentinz/bge-large-zh-v1.5:latest"
+        GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+        GEMINI_MODEL = "gemini-2.5-pro"
+        EMBEDDING_MODEL = "models/text-embedding-004"
         CHUNK_SIZE = 1000
         CHUNK_OVERLAP = 50
+
 
 def get_response(memory, question):
     file_path = Config.PDF_FILE_PATH
 
-    model = ChatDeepSeek(model=Config.DEEPSEEK_MODEL, api_key=Config.DEEPSEEK_API_KEY,
-                         temperature=0)
-    embeddings_zh = OllamaEmbeddings(model=Config.EMBEDDING_MODEL)
+    model = ChatGoogleGenerativeAI(
+        model=Config.GEMINI_MODEL, 
+        api_key=Config.GOOGLE_API_KEY,
+        temperature=0
+    )
+    
+    embeddings_zh = GoogleGenerativeAIEmbeddings(
+        model=Config.EMBEDDING_MODEL,
+        google_api_key=Config.GOOGLE_API_KEY
+    )
 
     loader = PyPDFLoader(file_path)
     docs = loader.load()
@@ -38,14 +45,20 @@ def get_response(memory, question):
         chunk_overlap=Config.CHUNK_OVERLAP,
         separators=['\n','。','？','！','；','，','、']
     )
-    # memory = ConversationBufferMemory(return_messages=True,memory_key='chat_history',output_key='answer')
     texts = text_splitter.split_documents(docs)
+    
     db = Chroma.from_documents(texts, embeddings_zh)
-    retriever = db.as_retriever()
+    
+    retriever = db.as_retriever(search_kwargs={"k": 20})
+    
     qa = ConversationalRetrievalChain.from_llm(
         llm = model,
         retriever = retriever,
-        memory = memory
+        memory = memory,
+        # 可选：如果你想在后台看到它到底引用了哪一段，可以加上 return_source_documents=True
+        #return_source_documents=True 
     )
+    
     response = qa.invoke({"chat_history": memory, "question": question})
     return response
+

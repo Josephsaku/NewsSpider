@@ -37,16 +37,22 @@ cp config.py.template config.py
 
 # 编辑 config.py 文件，填写您的配置信息
 ```
-你还需要通过Ollama来下载embedding模型，默认使用`quentinz/bge-large-zh-v1.5:latest`
-Ollama相关操作请自行查询，这里不展开说明
+
 
 ## 配置说明
 
 在 `config.py` 中配置以下参数：
 
+此处可以自行修改config.py中的api密钥以及调用的模型，这里使用的是google的GEMINI-2.5-pro和text-embedding-004。
+
 ```python
+# 网络代理端口
+os.environ["http_proxy"] = "http://127.0.0.1:xxxx"
+os.environ["https_proxy"] = "http://127.0.0.1:xxxx"
+os.environ["all_proxy"] = "socks5://127.0.0.1:xxxx" 
+
 # DeepSeek API 密钥（必需）
-DEEPSEEK_API_KEY = "your_api_key_here"
+GOOGLE_API_KEY = "your_api_key_here"
 
 # 目标网站配置 （必需）
 TARGET_BASE_URL = "复制学校内部网网址"
