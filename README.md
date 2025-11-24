@@ -2,14 +2,6 @@
 
 一个基于Python的智能新闻爬取系统，专门用于爬取深圳技术大学公文通网站新闻内容，并提供智能问答功能。
 
-## 使用方法
-
-### 启动系统
-```bash
-source .venv/bin/activate 
-streamlit run spider/main.py
-```
-
 ## 功能特性
 
 - 📰 自动爬取新闻内容
