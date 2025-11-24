@@ -2,6 +2,14 @@
 
 一个基于Python的智能新闻爬取系统，专门用于爬取深圳技术大学公文通网站新闻内容，并提供智能问答功能。
 
+## 使用方法
+
+### 启动系统
+```bash
+source .venv/bin/activate 
+streamlit run spider/main.py
+```
+
 ## 功能特性
 
 - 📰 自动爬取新闻内容
@@ -67,6 +75,32 @@ TARGET_PAGE_URL = "复制学校公文通页面的网址"
 1. 访问 [GEMINI官网](https://gemini.google.com/app?hl=zh-cn)
 2. 注册账号并获取API密钥
 3. 在配置文件中设置 `GOOGLE_API_KEY`
+
+## 修改`pdf_qa.py`文件
+
+根据实际调用的API，修改模块
+```python
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings #修改为其他API的库
+...
+...
+def get_response(memory, question):
+    file_path = Config.PDF_FILE_PATH
+  
+   #下方应修改
+    model = ChatGoogleGenerativeAI( 
+        model=Config.GEMINI_MODEL, 
+        api_key=Config.GOOGLE_API_KEY,
+        temperature=0
+    )
+    
+    embeddings_zh = GoogleGenerativeAIEmbeddings( 
+        model=Config.EMBEDDING_MODEL,
+        google_api_key=Config.GOOGLE_API_KEY
+    )
+...
+```
+
+
 
 ## 使用方法
 
